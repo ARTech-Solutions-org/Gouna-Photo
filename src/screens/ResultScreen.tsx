@@ -130,7 +130,7 @@ export function ResultScreen({ onRegenerate, onEdit, onContinue }: ResultScreenP
               <img
                 src={generatedImage}
                 alt={isAr ? 'صورتك المُنشأة' : 'Your generated photo'}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 data-testid="generated-image"
               />
             ) : (

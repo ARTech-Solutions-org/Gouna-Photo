@@ -147,7 +147,7 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
                 src={generatedImage}
                 alt={isAr ? 'معاينة' : 'Preview'}
                 style={{
-                  width: '100%', height: '100%', objectFit: 'cover',
+                  width: '100%', height: '100%', objectFit: 'contain',
                   ...previewStyle,
                   transition: 'filter 0.4s ease',
                 }}
