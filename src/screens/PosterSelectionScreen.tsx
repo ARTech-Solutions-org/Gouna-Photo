@@ -5,7 +5,7 @@ import { BoothButton } from '../components/BoothButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooth } from '../context/BoothContext';
 import { getMoviesByCategory } from '../data/movies';
-import { translations } from '../i18n/translations';
+
 import type { MovieCategory } from '../data/movies';
 import type { Movie } from '../types';
 
