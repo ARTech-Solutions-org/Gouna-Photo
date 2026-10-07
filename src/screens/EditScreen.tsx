@@ -61,7 +61,7 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
   // Apply default on mount
   useEffect(() => {
     applyFilterToCanvas(appliedFilter);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [generatedImage]);
 
   const previewStyle = useMemo(() => ({
@@ -133,21 +133,23 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
           transition={{ ...spring, delay: 0.1 }}
         >
           <div style={{
-            height: '100%',
-            maxHeight: '55vh',
-            aspectRatio: '2 / 3',
+            display: 'inline-flex',
+            maxWidth: '100%',
             borderRadius: '2px',
             overflow: 'hidden',
             border: '1px solid rgba(201,162,39,0.4)',
             boxShadow: '0 16px 60px rgba(0,0,0,0.7)',
-            transition: 'filter 0.4s ease',
           }}>
             {generatedImage && (
               <img
                 src={generatedImage}
                 alt={isAr ? 'معاينة' : 'Preview'}
                 style={{
-                  width: '100%', height: '100%', objectFit: 'contain',
+                  display: 'block',
+                  width: 'auto',
+                  height: 'auto',
+                  maxWidth: '100%',
+                  maxHeight: '55vh',
                   ...previewStyle,
                   transition: 'filter 0.4s ease',
                 }}

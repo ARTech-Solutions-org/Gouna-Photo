@@ -110,33 +110,32 @@ export function ResultScreen({ onRegenerate, onEdit, onContinue }: ResultScreenP
           transition={{ ...spring, delay: 0.15 }}
         >
           <div style={{
-            height: '100%',
-            maxHeight: '55vh',
-            aspectRatio: '2 / 3',
             position: 'relative',
+            display: 'inline-flex',
+            maxWidth: '100%',
             borderRadius: '2px',
             overflow: 'hidden',
             boxShadow: '0 24px 80px rgba(0,0,0,0.8), 0 0 60px rgba(201,162,39,0.2)',
             border: '2px solid rgba(201,162,39,0.5)',
           }}>
-            {/* Subtle inner glow */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              boxShadow: 'inset 0 0 60px rgba(0,0,0,0.5)',
-              zIndex: 1, pointerEvents: 'none',
-            }} />
-
             {generatedImage ? (
               <img
                 src={generatedImage}
                 alt={isAr ? 'صورتك المُنشأة' : 'Your generated photo'}
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                style={{
+                  display: 'block',
+                  width: 'auto',
+                  height: 'auto',
+                  maxWidth: '100%',
+                  maxHeight: '55vh',
+                }}
                 data-testid="generated-image"
               />
             ) : (
               /* Fallback if no image */
               <div style={{
-                width: '100%', height: '100%',
+                width: 'min(60vw, 330px)',
+                aspectRatio: '2 / 3',
                 background: 'linear-gradient(135deg, #2a1a0e, #1a0e2a)',
                 display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
@@ -153,20 +152,6 @@ export function ResultScreen({ onRegenerate, onEdit, onContinue }: ResultScreenP
                 </div>
               </div>
             )}
-
-            {/* Film strip corner decoration on image */}
-            <div style={{
-              position: 'absolute', top: 0, left: 0, right: 0,
-              height: '20px',
-              background: 'repeating-linear-gradient(90deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 18px, transparent 18px, transparent 26px)',
-              zIndex: 2, pointerEvents: 'none', opacity: 0.6,
-            }} />
-            <div style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0,
-              height: '20px',
-              background: 'repeating-linear-gradient(90deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 18px, transparent 18px, transparent 26px)',
-              zIndex: 2, pointerEvents: 'none', opacity: 0.6,
-            }} />
           </div>
         </motion.div>
 
