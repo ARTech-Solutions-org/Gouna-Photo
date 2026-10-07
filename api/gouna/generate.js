@@ -45,6 +45,7 @@ export default async function handler(req, res) {
     'el-harreef': 'el-harreef.png',
     'welad-el-eih': 'welad-el-eih.png',
     'el-ayam': 'el-ayam.png',
+    'the-godfather': 'the-godfather.png',
   };
 
   const posterFilename = posterFiles[movieId];
@@ -72,6 +73,7 @@ export default async function handler(req, res) {
     'el-harreef': 'the man in the blue shirt holding a ball with his foot',
     'welad-el-eih': 'the main man in the center of the poster running shirtless',
     'el-ayam': 'the man in the center wearing round dark glasses',
+    'the-godfather': 'the man in the center wearing a tuxedo with a red rose',
   };
   const hero = heroDescriptions[movieId] || 'the main man in the center of the poster';
 

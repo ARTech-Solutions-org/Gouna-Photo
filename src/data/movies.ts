@@ -135,6 +135,15 @@ Style requirements:
     aiPrompt: 'The poster is Al-Ayam (The Days). The person to replace is the man in the center (Ahmed Zaki) wearing round dark glasses. Keep the glasses and match the yellow/green vintage lighting of the poster.',
     generationConfig: { style: 'drama', aspectRatio: '2:3' },
   },
+  {
+    id: 'the-godfather',
+    titleAr: 'الأب الروحي',
+    titleEn: 'The Godfather',
+    posterPath: '/posters/the-godfather.png',
+    category: 'drama',
+    aiPrompt: 'The poster is The Godfather. The person to replace is the man in the center (Marlon Brando) in a tuxedo with a red rose.',
+    generationConfig: { style: 'drama', aspectRatio: '2:3' },
+  },
 ];
 
 export const movieCategories = ['all', 'drama', 'comedy', 'action', 'romance'] as const;
