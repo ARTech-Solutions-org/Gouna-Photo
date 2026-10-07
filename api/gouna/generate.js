@@ -12,6 +12,8 @@ import fs from 'fs';
 import path from 'path';
 
 const CANDIDATE_MODELS = [
+  'gemini-3-pro-image-preview',
+  'gemini-3.1-flash-image-preview',
   'gemini-2.5-flash-image',
 ];
 
@@ -98,18 +100,14 @@ export default async function handler(req, res) {
   });
 
   parts.push({
-    text: `This is a face and head swap task on Image 1, a vintage Egyptian movie poster.
+    text: `Image 1 is a vintage movie poster. Image 2 is a photo of a real person.
 
-Replace the head and face of ${hero} with the head and face of the person in Image 2.
+Create the poster again with ${hero} replaced by the person from Image 2.
+The new person's face must be clearly the face from Image 2 (same eyes, nose, mouth, jawline, skin tone, hair). The original actor's face must not appear anywhere.
+Keep the original body pose, clothes, lighting, grain and color grading, so the person looks printed as part of the poster.
+Keep the background, title, and all Arabic and English text unchanged.
 
-Requirements:
-- The final face must be the face of the person in Image 2: same facial features, face shape, skin tone, hairstyle and facial hair.
-- No facial feature of the original man may remain. Do not keep his face, only his body, pose and clothes.
-- Match the original lighting, angle, vintage print grain and color grading so the new face blends naturally into the old poster.
-- Do not add accessories such as earphones from Image 2. Use only the face and hair.
-- Keep the rest of the poster unchanged: background, title, Arabic and English text, layout.
-
-Output the edited poster as an image.`
+Output the final poster as an image.`
   });
 
   // We ask Gemini to generate an image based on the reference photo and prompt
@@ -159,6 +157,11 @@ Output the edited poster as an image.`
         (p) => (p.inlineData && p.inlineData.data) || (p.inline_data && p.inline_data.data)
       );
 
+      const textPart = allParts.find((p) => p.text);
+      if (textPart?.text) {
+        console.log(`Model ${model} returned text: ${textPart.text}`);
+      }
+
       if (imagePart) {
         const data = imagePart.inlineData?.data || imagePart.inline_data?.data;
         const mime = imagePart.inlineData?.mimeType || imagePart.inline_data?.mime_type || 'image/jpeg';
@@ -170,7 +173,6 @@ Output the edited poster as an image.`
         });
       }
 
-      const textPart = allParts.find((p) => p.text);
       if (textPart?.text) {
         console.warn(`Model ${model} returned text instead of image.`);
         lastError = `Model returned text only: ${textPart.text.slice(0, 150)}`;
