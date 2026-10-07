@@ -64,16 +64,16 @@ export default async function handler(req, res) {
 
   const heroDescriptions = {
     'emara-w-kebeba': 'the main man looking forward',
-    'bab-el-hadid': 'the man in the center (Qinawi)',
+    'bab-el-hadid': 'the man in the center',
     'ismail-yassin': 'the comedic man in military uniform',
     'el-ardh': 'the man in the center looking determined',
     'el-wedad': 'the main character in the center',
     'khalli-balak': 'the main dancing woman in the center',
     'el-harreef': 'the man in the blue shirt holding a ball with his foot',
-    'welad-el-eih': 'the main man (actor Ahmed Zaki) running shirtless',
-    'el-ayam': 'the man in the center wearing round dark glasses (Ahmed Zaki)',
+    'welad-el-eih': 'the main man in the center of the poster running shirtless',
+    'el-ayam': 'the man in the center wearing round dark glasses',
   };
-  const hero = heroDescriptions[movieId] || 'the main character in the center of the poster';
+  const hero = heroDescriptions[movieId] || 'the main man in the center of the poster';
 
   const parts = [];
 
@@ -96,15 +96,16 @@ export default async function handler(req, res) {
   });
 
   parts.push({
-    text: `Edit Image 1, a vintage Egyptian movie poster.
-Replace ${hero} with the person shown in Image 2.
+    text: `This is a face and head swap task on Image 1, a vintage Egyptian movie poster.
 
-The new person's face, hair and skin tone must clearly match Image 2, NOT the original actor. The result must be obviously the person from Image 2.
-Keep the same pose, position, size, clothing style and lighting as the original character.
-Keep everything else in the poster unchanged: background, title, Arabic and English text, layout and colors.
-Match the vintage print grain so the new person looks like part of the original poster.
+Replace the head and face of ${hero} with the head and face of the person in Image 2.
 
-${aiPrompt}
+Requirements:
+- The final face must be the face of the person in Image 2: same facial features, face shape, skin tone, hairstyle and facial hair.
+- No facial feature of the original man may remain. Do not keep his face, only his body, pose and clothes.
+- Match the original lighting, angle, vintage print grain and color grading so the new face blends naturally into the old poster.
+- Do not add accessories such as earphones from Image 2. Use only the face and hair.
+- Keep the rest of the poster unchanged: background, title, Arabic and English text, layout.
 
 Output the edited poster as an image.`
   });
