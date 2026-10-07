@@ -12,9 +12,9 @@ import fs from 'fs';
 import path from 'path';
 
 const CANDIDATE_MODELS = [
-  'gemini-2.0-pro-exp', // Good at instruction following and images
+  'gemini-2.0-pro-exp-02-05',
+  'gemini-2.0-pro-exp',
   'gemini-2.0-flash-exp',
-  'gemini-exp-1206',
 ];
 
 export default async function handler(req, res) {
@@ -135,7 +135,7 @@ Everything else must remain pixel-level consistent with the original wherever po
   for (const model of CANDIDATE_MODELS) {
     try {
       console.log(`Attempting image generation with model: ${model}`);
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const endpoint = `https://generativelanguage.googleapis.com/v1alpha/models/${model}:generateContent?key=${apiKey}`;
 
       const response = await fetch(endpoint, {
         method: 'POST',
