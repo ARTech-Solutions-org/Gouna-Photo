@@ -45,8 +45,8 @@ export default async function handler(req, res) {
     'el-wedad': 'farewell-bonaparte.jpg',
     'khalli-balak': 'zuzu.jpg',
     'el-harreef': 'el-harreef.png',
-    'welad-el-eih': 'welad-el-eih.jpg',
-    'el-ayam': 'el-ayam.jpg',
+    'welad-el-eih': 'welad-el-eih.png',
+    'el-ayam': 'el-ayam.png',
   };
 
   const posterFilename = posterFiles[movieId];
