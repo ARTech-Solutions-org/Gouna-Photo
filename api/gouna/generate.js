@@ -49,12 +49,14 @@ export default async function handler(req, res) {
 
   const posterFilename = posterFiles[movieId];
   let posterBase64 = '';
+  let posterMime = 'image/jpeg';
   
   if (posterFilename) {
     try {
       const posterPath = path.join(process.cwd(), 'public', 'posters', posterFilename);
       const posterBuffer = fs.readFileSync(posterPath);
       posterBase64 = posterBuffer.toString('base64');
+      posterMime = posterFilename.endsWith('.png') ? 'image/png' : 'image/jpeg';
     } catch (e) {
       console.warn('Could not read poster file:', posterFilename, e.message);
     }
@@ -72,7 +74,7 @@ export default async function handler(req, res) {
   if (posterBase64) {
     parts.push({
       inline_data: {
-        mime_type: 'image/jpeg',
+        mime_type: posterMime,
         data: posterBase64,
       },
     });
