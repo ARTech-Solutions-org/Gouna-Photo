@@ -62,16 +62,23 @@ export default async function handler(req, res) {
     }
   }
 
-  const parts = [
-    {
-      inline_data: {
-        mime_type: mimeType,
-        data: cleanBase64,
-      },
-    }
-  ];
+  const heroDescriptions = {
+    'emara-w-kebeba': 'the main man looking forward',
+    'bab-el-hadid': 'the man in the center (Qinawi)',
+    'ismail-yassin': 'the comedic man in military uniform',
+    'el-ardh': 'the man in the center looking determined',
+    'el-wedad': 'the main character in the center',
+    'khalli-balak': 'the main dancing woman in the center',
+    'el-harreef': 'the man in the blue shirt holding a ball with his foot',
+    'welad-el-eih': 'the main man (actor Ahmed Zaki) running shirtless',
+    'el-ayam': 'the man in the center wearing round dark glasses (Ahmed Zaki)',
+  };
+  const hero = heroDescriptions[movieId] || 'the main character in the center of the poster';
+
+  const parts = [];
 
   if (posterBase64) {
+    parts.push({ text: 'Image 1 (the poster to edit):' });
     parts.push({
       inline_data: {
         mime_type: posterMime,
@@ -80,41 +87,26 @@ export default async function handler(req, res) {
     });
   }
 
+  parts.push({ text: 'Image 2 (the person to insert):' });
   parts.push({
-    text: `IMPORTANT: Use the uploaded movie poster as the EXACT visual source.
-First image is the user's photo. Second image is the reference movie poster.
+    inline_data: {
+      mime_type: mimeType,
+      data: cleanBase64,
+    },
+  });
 
-TASK:
+  parts.push({
+    text: `Edit Image 1, a vintage Egyptian movie poster.
+Replace ${hero} with the person shown in Image 2.
+
+The new person's face, hair and skin tone must clearly match Image 2, NOT the original actor. The result must be obviously the person from Image 2.
+Keep the same pose, position, size, clothing style and lighting as the original character.
+Keep everything else in the poster unchanged: background, title, Arabic and English text, layout and colors.
+Match the vintage print grain so the new person looks like part of the original poster.
+
 ${aiPrompt}
 
-STRICT PRESERVATION RULES:
-- Do NOT redesign the poster.
-- Do NOT recreate the poster.
-- Do NOT change the composition, layout, colors, typography, Arabic text, English text, logos, credits, drawings, background, lighting, or any other element.
-- Do NOT remove, rewrite, translate, sharpen, stylize, or regenerate any existing text.
-- Do NOT modify the background elements, street lights, buildings, shadows, or poster artwork.
-- Do NOT change the poster's dimensions or aspect ratio.
-- Preserve the original vintage Egyptian movie-poster aesthetic exactly.
-
-PERSON REPLACEMENT:
-- Identify the real photographed person standing in the center/lower-middle of the poster.
-- Remove ONLY that person.
-- Insert the user's person (from the first image) in exactly the same location and approximately the same scale.
-- Match the original person's pose, body orientation, camera angle, perspective, head position, arm positions, leg positions, and overall silhouette as closely as possible.
-- The user's face and identity must remain recognizable and natural.
-- Adapt the user's clothing/body to realistically fit the pose and visual context.
-- Match the poster's lighting, shadows, contrast, color temperature, grain, and vintage print texture.
-- Make the inserted person look as if they was originally photographed/printed as part of this exact poster.
-- Add realistic contact shadows where the person's feet/body interact with the original scene.
-- Keep the replacement person integrated into the original poster rather than looking digitally pasted on.
-
-VERY IMPORTANT:
-The final result must look like the ORIGINAL MOVIE POSTER with the hero replaced by the user's person.
-Think of this as a professional image-editing / inpainting operation, NOT an image-generation task.
-
-OUTPUT:
-Return the same poster with ONLY the central person replaced.
-Everything else must remain pixel-level consistent with the original wherever possible.`
+Output the edited poster as an image.`
   });
 
   // We ask Gemini to generate an image based on the reference photo and prompt
@@ -125,7 +117,6 @@ Everything else must remain pixel-level consistent with the original wherever po
       },
     ],
     generationConfig: {
-      temperature: 0.2,
       responseModalities: ["TEXT", "IMAGE"],
     },
   });
