@@ -1,6 +1,6 @@
 // El Gouna Film Festival Photo Booth — App Root
 
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BoothProvider, useBooth } from './context/BoothContext';
 import { WelcomeScreen } from './screens/WelcomeScreen';

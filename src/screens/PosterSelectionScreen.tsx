@@ -126,7 +126,7 @@ interface PosterSelectionProps {
 export function PosterSelectionScreen({ onBack, onConfirm }: PosterSelectionProps) {
   const { state, selectMovie } = useBooth();
   const { language, selectedMovie } = state.session;
-  const tr = translations[language];
+
   const isAr = language === 'ar';
 
   const [activeCategory, setActiveCategory] = useState<MovieCategory>('all');

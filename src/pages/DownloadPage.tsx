@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 export function DownloadPage() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
 
   // In a real app, we would fetch the image URL from a database based on the session ID.
   // Since we don't have a DB here, we assume the user scans the QR code that might encode the URL directly,

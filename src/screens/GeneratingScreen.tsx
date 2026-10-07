@@ -1,11 +1,11 @@
 // El Gouna Film Festival Photo Booth — AI Generation Screen
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooth } from '../context/BoothContext';
 import { generateImage, uploadImage } from '../api/client';
 
-const spring = { type: 'spring' as const, damping: 28, stiffness: 120 };
+
 
 interface GeneratingScreenProps {
   onComplete: () => void;
@@ -27,7 +27,7 @@ const GENERATION_STEPS_EN = [
 ];
 
 export function GeneratingScreen({ onComplete, onError }: GeneratingScreenProps) {
-  const { state, dispatch, setGeneratedImage, setImageUrl, setQrUrl } = useBooth();
+  const { state, setGeneratedImage, setImageUrl, setQrUrl } = useBooth();
   const { language, capturedPhoto, selectedMovie } = state.session;
   const isAr = language === 'ar';
 
