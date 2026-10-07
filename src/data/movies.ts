@@ -117,6 +117,24 @@ Style requirements:
     aiPrompt: 'The poster is El Harreef (The Streetplayer, 1983). The person to replace is the man in the blue shirt standing in the center/lower-middle holding a ball with his foot.',
     generationConfig: { style: 'drama', aspectRatio: '2:3' },
   },
+  {
+    id: 'welad-el-eih',
+    titleAr: 'ولاد الإيه',
+    titleEn: 'Welad El-Eih',
+    posterPath: '/posters/welad-el-eih.jpg',
+    category: 'action',
+    aiPrompt: 'The poster is Welad El-Eih. The person to replace is the man in the center (Ahmed Zaki) running shirtless with a towel around his waist. Match his skin tone, lighting, and pose exactly.',
+    generationConfig: { style: 'action', aspectRatio: '2:3' },
+  },
+  {
+    id: 'el-ayam',
+    titleAr: 'الأيام',
+    titleEn: 'The Days',
+    posterPath: '/posters/el-ayam.jpg',
+    category: 'drama',
+    aiPrompt: 'The poster is Al-Ayam (The Days). The person to replace is the man in the center (Ahmed Zaki) wearing round dark glasses. Keep the glasses and match the yellow/green vintage lighting of the poster.',
+    generationConfig: { style: 'drama', aspectRatio: '2:3' },
+  },
 ];
 
 export const movieCategories = ['all', 'drama', 'comedy', 'action', 'romance'] as const;

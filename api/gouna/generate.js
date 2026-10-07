@@ -44,7 +44,9 @@ export default async function handler(req, res) {
     'el-ardh': 'el-ardh.jpg',
     'el-wedad': 'farewell-bonaparte.jpg',
     'khalli-balak': 'zuzu.jpg',
-    'el-harreef': 'el-harreef.jpg',
+    'el-harreef': 'el-harreef.png',
+    'welad-el-eih': 'welad-el-eih.jpg',
+    'el-ayam': 'el-ayam.jpg',
   };
 
   const posterFilename = posterFiles[movieId];
@@ -124,7 +126,7 @@ Everything else must remain pixel-level consistent with the original wherever po
     ],
     generationConfig: {
       temperature: 0.2,
-      response_mime_type: 'image/jpeg',
+      responseModalities: ["IMAGE"],
     },
   });
 
