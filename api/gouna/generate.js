@@ -113,11 +113,13 @@ Use soft flat studio lighting with warm yellow-olive tones, slightly faded color
 
 Keep the title "الأيام / THE DAYS" in dark ornate calligraphy, the actor names, the credits and all Arabic text exactly as in Image 2: same position, size and colors. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
 
-    'el-harreef': `Create a vintage Egyptian screen-print movie poster recreating the poster shown in Image 2.
+    'el-harreef': `Edit Image 2, the original vintage Egyptian screen-print movie poster, by replacing ONLY the large black-and-white illustrated face in the background (the big head and shoulders behind the small footballer) with the person from Image 1.
 
-Replace only the small full-body footballer in the middle: the person wears a dark blue sweater and grey trousers and is dribbling a football mid-step, with the same pose, body position and size as the original figure. Render the person with the same high-contrast graphic print treatment as the poster, using limited blue, black and white tones, while the face stays clearly recognizable.
+Render the new person in exactly the same graphic style as the original illustration: a high-contrast two-tone black-and-white stencil/screen-print look, with a harsh shadow covering one side of the face, flat solid shapes, no soft gradients and no photographic detail. Keep the same position, size, head angle and looking direction as the original big face, and the same dark suit and white collar shapes.
 
-Keep everything else exactly as in Image 2: the large black-and-white illustrated face in the background, the blue background, the row of street lamps, the white shapes, the title "الحريف / STREETPLAYER", the actor names, the credits and all Arabic and English text. Keep the aged folded-paper creases and print texture. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
+The person must still be recognizable through the shapes of their face: the profile, jawline, hairstyle, facial hair and glasses (if any) from Image 1, simplified into the black-and-white print style.
+
+Keep everything else in Image 2 exactly as it is: the small footballer in the dark blue sweater and grey trousers with the football, the blue background, the row of street lamps, the white shapes, the title "الحريف / STREETPLAYER", all Arabic and English text, the credits, the folded-paper creases and print texture. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
   };
 
   const defaultPrompt = `Recreate the vintage movie poster shown in Image 2, replacing ${hero} with the person from Image 1. Keep the same pose, clothing, composition, lighting, color grading, film grain and print texture as the original poster, but relight the person so they belong naturally in the scene. Keep the poster's title, credits and all text exactly as in Image 2. Do not add any other graphic elements, logos or watermarks.`;
