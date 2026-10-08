@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   const data = imageBase64.replace(/^data:[^;]+;base64,/, '');
 
   try {
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     formData.append('key', apiKey);
     formData.append('image', data);
 
