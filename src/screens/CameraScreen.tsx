@@ -313,15 +313,7 @@ export function CameraScreen({ onBack, onCaptured }: CameraScreenProps) {
             {/* Camera frame guide overlay */}
             {cameraReady && !capturedPhoto && (
               <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-                {/* Face guide oval */}
-                <div style={{
-                  position: 'absolute',
-                  top: '10%', left: '50%', transform: 'translateX(-50%)',
-                  width: '55%', height: '50%',
-                  border: '2px dashed rgba(201,162,39,0.45)',
-                  borderRadius: '50%',
-                }} />
-
+                
                 {/* Corner frame markers */}
                 {[
                   { top: '6%', left: '6%', borderWidth: '2px 0 0 2px' },
@@ -338,24 +330,7 @@ export function CameraScreen({ onBack, onCaptured }: CameraScreenProps) {
                   }} />
                 ))}
 
-                {/* Label */}
-                <div style={{
-                  position: 'absolute', bottom: '14%', left: 0, right: 0,
-                  textAlign: 'center',
-                }}>
-                  <span style={{
-                    fontFamily: isAr ? 'var(--font-arabic)' : 'var(--font-body)',
-                    fontSize: '0.8rem',
-                    color: 'rgba(201,162,39,0.7)',
-                    background: 'rgba(0,0,0,0.6)',
-                    padding: '4px 14px',
-                    borderRadius: '12px',
-                    backdropFilter: 'blur(6px)',
-                  }}>
-                    {isAr ? 'ضع وجهك هنا' : 'Position face here'}
-                  </span>
-                </div>
-              </div>
+                              </div>
             )}
 
             {/* Countdown overlay */}
@@ -433,7 +408,7 @@ export function CameraScreen({ onBack, onCaptured }: CameraScreenProps) {
                 style={{ width: '100%', padding: '20px' }}
                 data-testid="btn-use-photo"
               >
-                {isAr ? 'استخدام هذه الصورة ✦' : '✦ Use This Photo'}
+                {isAr ? 'استخدام الصورة ✦' : '✦ Use This Photo'}
               </BoothButton>
               <BoothButton
                 className={`btn-cinematic btn-ghost ${isAr ? 'btn-arabic' : ''}`}

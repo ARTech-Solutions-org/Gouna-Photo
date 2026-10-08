@@ -35,26 +35,29 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
     setLocalFilter(filter);
   };
 
-  const handleSave = () => {
-    if (!generatedImage || !canvasRef.current) {
-      onSave();
-      return;
-    }
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d')!;
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const filterDef = FILTERS.find(f => f.id === localFilter)!;
-      ctx.filter = filterDef.css;
-      ctx.drawImage(img, 0, 0);
-      const editedDataUrl = canvas.toDataURL('image/jpeg', 0.92);
-      setEditedImage(editedDataUrl);
-      setFilter(localFilter);
-      onSave();
-    };
-    img.src = generatedImage;
+  const applyFilterToCanvas = (filter: FilterType) =>
+    new Promise<void>((resolve) => {
+      if (!generatedImage || !canvasRef.current) return resolve();
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d')!;
+      const img = new Image();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const filterDef = FILTERS.find(f => f.id === filter)!;
+        ctx.filter = filterDef.css;
+        ctx.drawImage(img, 0, 0);
+        setEditedImage(canvas.toDataURL('image/jpeg', 0.92));
+        setFilter(filter);
+        resolve();
+      };
+      img.onerror = () => resolve();
+      img.src = generatedImage;
+    });
+
+  const handleSave = async () => {
+    await applyFilterToCanvas(localFilter);
+    onSave();
   };
 
   const previewStyle = useMemo(() => ({
@@ -105,14 +108,7 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
             {isAr ? 'تعديل صورتك' : 'Edit Your Photo'}
           </h1>
 
-          <BoothButton
-            className={`btn-cinematic btn-primary ${isAr ? 'btn-arabic' : ''}`}
-            onClick={handleSave}
-            style={{ padding: '10px 20px', fontSize: '0.85rem' }}
-            data-testid="btn-save-edit"
-          >
-            {isAr ? 'حفظ' : 'Save'}
-          </BoothButton>
+          <div style={{ width: '80px' }} />
         </motion.div>
 
         {/* Image preview */}
@@ -157,7 +153,7 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
           style={{
             flexShrink: 0,
             display: 'flex', gap: '16px',
-            justifyContent: 'center',
+            justifyContent: 'safe center',
             overflowX: 'auto',
             padding: '8px 0',
           }}
@@ -166,12 +162,17 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
           transition={{ ...spring, delay: 0.2 }}
         >
           {FILTERS.map((f) => (
-            <BoothButton
+            <button
               key={f.id}
+              type="button"
               className={`filter-pill ${localFilter === f.id ? 'active' : ''}`}
               onClick={() => handleFilterSelect(f.id)}
               data-testid={`filter-${f.id}`}
-              style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+              style={{
+                background: 'transparent', border: 'none', cursor: 'pointer',
+                flexShrink: 0, padding: 0,
+                WebkitTapHighlightColor: 'transparent',
+              }}
             >
               <div className="filter-pill-thumb">
                 {generatedImage && (
@@ -188,7 +189,7 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
               <span className="filter-pill-label">
                 {isAr ? f.labelAr : f.labelEn}
               </span>
-            </BoothButton>
+            </button>
           ))}
         </motion.div>
 

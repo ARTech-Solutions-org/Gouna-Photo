@@ -147,6 +147,7 @@ export function PosterConfirmScreen({ onBack, onContinue }: PosterConfirmProps) 
               display: 'flex', flexDirection: 'column',
               alignItems: 'center', justifyContent: 'center',
               padding: '24px',
+              zIndex: -1,
             }}>
               <div style={{
                 fontFamily: 'var(--font-arabic)',
