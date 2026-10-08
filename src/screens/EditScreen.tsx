@@ -1,6 +1,6 @@
 // El Gouna Film Festival Photo Booth — Edit Photo Screen
 
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo, useState } from 'react';
 import { BoothButton } from '../components/BoothButton';
 import { motion } from 'framer-motion';
 import { useBooth } from '../context/BoothContext';
@@ -28,41 +28,34 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const activeFilter = FILTERS.find(f => f.id === appliedFilter) ?? FILTERS[0];
+  const [localFilter, setLocalFilter] = useState<FilterType>(appliedFilter);
+  const activeFilter = FILTERS.find(f => f.id === localFilter) ?? FILTERS[0];
 
-  // Apply filter to canvas and produce edited image data URL
-  const applyFilterToCanvas = async (filter: FilterType) => {
-    if (!generatedImage || !canvasRef.current) return;
+  const handleFilterSelect = (filter: FilterType) => {
+    setLocalFilter(filter);
+  };
+
+  const handleSave = () => {
+    if (!generatedImage || !canvasRef.current) {
+      onSave();
+      return;
+    }
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d')!;
     const img = new Image();
     img.onload = () => {
       canvas.width = img.width;
       canvas.height = img.height;
-      const filterDef = FILTERS.find(f => f.id === filter)!;
+      const filterDef = FILTERS.find(f => f.id === localFilter)!;
       ctx.filter = filterDef.css;
       ctx.drawImage(img, 0, 0);
       const editedDataUrl = canvas.toDataURL('image/jpeg', 0.92);
       setEditedImage(editedDataUrl);
+      setFilter(localFilter);
+      onSave();
     };
     img.src = generatedImage;
   };
-
-  const handleFilterSelect = (filter: FilterType) => {
-    setFilter(filter);
-    applyFilterToCanvas(filter);
-  };
-
-  const handleSave = () => {
-    applyFilterToCanvas(appliedFilter);
-    onSave();
-  };
-
-  // Apply default on mount
-  useEffect(() => {
-    applyFilterToCanvas(appliedFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generatedImage]);
 
   const previewStyle = useMemo(() => ({
     filter: activeFilter.css === 'none' ? undefined : activeFilter.css,
@@ -175,7 +168,7 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
           {FILTERS.map((f) => (
             <BoothButton
               key={f.id}
-              className={`filter-pill ${appliedFilter === f.id ? 'active' : ''}`}
+              className={`filter-pill ${localFilter === f.id ? 'active' : ''}`}
               onClick={() => handleFilterSelect(f.id)}
               data-testid={`filter-${f.id}`}
               style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
