@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooth } from '../context/BoothContext';
 import { generateImage, uploadImage } from '../api/client';
+import { framePhoto } from '../utils/framePhoto';
 
 
 
@@ -72,7 +73,15 @@ export function GeneratingScreen({ onComplete, onError }: GeneratingScreenProps)
           state.session.id,
         );
 
-        const generatedDataUrl = `data:${result.mimeType};base64,${result.imageBase64}`;
+        let generatedDataUrl = `data:${result.mimeType};base64,${result.imageBase64}`;
+        
+        // Apply the frame with festival and bank logos
+        try {
+          generatedDataUrl = await framePhoto(generatedDataUrl);
+        } catch (frameErr) {
+          console.warn('Failed to apply frame, using original generated image:', frameErr);
+        }
+
         setGeneratedImage(generatedDataUrl);
         setProgress(100);
 
