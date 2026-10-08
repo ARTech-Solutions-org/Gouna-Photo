@@ -53,6 +53,16 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           }}
         />
 
+        {/* SVG filter to turn the bank logo into #e6c59a */}
+        <svg style={{ width: 0, height: 0, position: 'absolute' }}>
+          <filter id="gold-filter">
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 0.902   0 0 0 0 0.773   0 0 0 0 0.604   0 0 0 1 0"
+            />
+          </filter>
+        </svg>
+
         {/* Sponsor Logo (Emirates NBD) */}
         <motion.img 
           src="/elements/compound_path.png" 
@@ -67,7 +77,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             width: '25%',
             height: '5%',
             objectFit: 'contain',
-            filter: 'brightness(0) invert(1)'
+            filter: 'url(#gold-filter)'
           }}
         />
 
