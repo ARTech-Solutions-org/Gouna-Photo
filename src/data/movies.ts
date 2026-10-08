@@ -10,6 +10,7 @@ export const movies: Movie[] = [
     titleEn: 'The Yacoubian Building',
     posterPath: '/posters/yacoubian.jpg',
     category: 'drama',
+    hidden: true,
     aiPrompt: `Place the subject as the central hero in an Egyptian classic cinema poster style.
 The poster should have a dramatic, vintage film aesthetic with warm sepia and gold tones.
 The subject should appear in period-appropriate attire (1940s-1950s Egyptian style).
@@ -28,6 +29,7 @@ Replace the main character in the Yacoubian Building movie poster style:
     titleEn: 'Cairo Station',
     posterPath: '/posters/cairo-station.jpg',
     category: 'drama',
+    hidden: true,
     aiPrompt: `Transform the subject into the hero of a vintage Egyptian black-and-white cinema poster in the style of Bab El Hadid (Cairo Station, 1958).
 Style requirements:
 - Classic black and white film noir aesthetic
@@ -45,6 +47,7 @@ Style requirements:
     titleEn: 'Ismail Yassin in the Army',
     posterPath: '/posters/ismail-yassin.jpg',
     category: 'comedy',
+    hidden: true,
     aiPrompt: `Place the subject as the comedic lead in a classic Egyptian comedy film poster from the 1950s.
 Style requirements:
 - Bright, colorful vintage Egyptian poster aesthetic
@@ -62,6 +65,7 @@ Style requirements:
     titleEn: 'The Land',
     posterPath: '/posters/el-ardh.jpg',
     category: 'drama',
+    hidden: true,
     aiPrompt: `Transform the subject into the heroic lead of a dramatic Egyptian agrarian epic film poster in the style of Al-Ard (The Land).
 Style requirements:
 - Epic, sweeping Egyptian farmland panorama in background
@@ -79,6 +83,7 @@ Style requirements:
     titleEn: 'Farewell Bonaparte',
     posterPath: '/posters/farewell-bonaparte.jpg',
     category: 'romance',
+    hidden: true,
     aiPrompt: `Place the subject as the romantic lead in a lavish Egyptian historical romance film poster from the era of Napoleon's campaign in Egypt.
 Style requirements:
 - Grand historical epic aesthetic
@@ -96,6 +101,7 @@ Style requirements:
     titleEn: 'Watch Out for Zuzu',
     posterPath: '/posters/zuzu.jpg',
     category: 'comedy',
+    hidden: true,
     aiPrompt: `Transform the subject into the lead of a vibrant, colorful classic Egyptian musical comedy poster from the 1970s.
 Style requirements:
 - Bright, cheerful color palette typical of 1970s Egyptian cinema
@@ -150,6 +156,7 @@ export const movieCategories = ['all', 'drama', 'comedy', 'action', 'romance'] a
 export type MovieCategory = typeof movieCategories[number];
 
 export function getMoviesByCategory(category: MovieCategory): Movie[] {
-  if (category === 'all') return movies;
-  return movies.filter(m => m.category === category);
+  const visibleMovies = movies.filter(m => !m.hidden);
+  if (category === 'all') return visibleMovies;
+  return visibleMovies.filter(m => m.category === category);
 }

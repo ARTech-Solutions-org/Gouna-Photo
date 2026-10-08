@@ -22,6 +22,7 @@ export interface Movie {
   posterPath: string;
   category: string;
   aiPrompt: string;
+  hidden?: boolean;
   generationConfig?: {
     style?: string;
     aspectRatio?: string;
