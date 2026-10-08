@@ -63,7 +63,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           style={{
             position: 'absolute',
             left: '37.5%',
-            top: '17%',
+            top: '18%',
             width: '25%',
             height: '5%',
             objectFit: 'contain'
