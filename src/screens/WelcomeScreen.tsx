@@ -66,7 +66,8 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             top: '18%',
             width: '25%',
             height: '5%',
-            objectFit: 'contain'
+            objectFit: 'contain',
+            filter: 'brightness(0) invert(1)'
           }}
         />
 
