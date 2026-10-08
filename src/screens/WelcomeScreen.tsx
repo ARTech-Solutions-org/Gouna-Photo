@@ -36,24 +36,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
       />
 
       <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
-        {/* Title */}
-        <motion.img 
-          src="/elements/title.png" 
-          alt="Title"
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ...spring, delay: 0.1 }}
-          style={{
-            position: 'absolute',
-            left: '31.2%',
-            top: '6.04%',
-            width: '37.4%',
-            height: '10.5%',
-            objectFit: 'contain'
-          }}
-        />
-
-        {/* Main Logo */}
+        {/* Main Logo (El Gouna) */}
         <motion.img 
           src="/elements/logo.png" 
           alt="Logo"
@@ -62,15 +45,15 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           transition={{ ...spring, delay: 0.2 }}
           style={{
             position: 'absolute',
-            left: '25%',
-            top: '15%',
-            width: '50%',
-            height: '22%',
+            left: '30%',
+            top: '6%',
+            width: '40%',
+            height: '12%',
             objectFit: 'contain'
           }}
         />
 
-        {/* Sponsor/Compound Logo */}
+        {/* Sponsor Logo (Emirates NBD) */}
         <motion.img 
           src="/elements/compound_path.png" 
           alt="Sponsor Logo"
@@ -80,9 +63,26 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           style={{
             position: 'absolute',
             left: '35%',
-            top: '36%',
+            top: '18.5%',
             width: '30%',
-            height: '8%',
+            height: '5%',
+            objectFit: 'contain'
+          }}
+        />
+
+        {/* Title (بطل البوستر) */}
+        <motion.img 
+          src="/elements/title.png" 
+          alt="Title"
+          initial={{ y: -30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ...spring, delay: 0.1 }}
+          style={{
+            position: 'absolute',
+            left: '15%',
+            top: '25%',
+            width: '70%',
+            height: '30%',
             objectFit: 'contain'
           }}
         />
