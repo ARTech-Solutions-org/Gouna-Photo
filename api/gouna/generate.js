@@ -30,8 +30,8 @@ export default async function handler(req, res) {
 
   const { imageBase64, mimeType = 'image/jpeg', aiPrompt, movieId } = req.body ?? {};
 
-  if (!imageBase64 || !aiPrompt) {
-    return res.status(400).json({ error: 'Missing image or prompt data.' });
+  if (!imageBase64) {
+    return res.status(400).json({ error: 'Missing image data.' });
   }
 
   const cleanBase64 = imageBase64.replace(/^data:image\/\w+;base64,/, '');
@@ -79,10 +79,65 @@ export default async function handler(req, res) {
   };
   const hero = heroDescriptions[movieId] || 'the main man in the center of the poster';
 
+  const identityRules = `Use the person from Image 1 (the reference photo) as the main character. Preserve their facial identity, facial structure, skin tone, hairstyle, facial hair and glasses (if any) as accurately as possible, exactly as in the reference photo. Do not copy any cap, hat or earphones from the reference photo. The original actor's face must not appear anywhere.`;
+
+  // برومت مخصوص لكل فيلم. ضيف باقي الأفلام بنفس الطريقة
+  const moviePrompts = {
+    'the-godfather': `Create a moody, cinematic portrait recreating the classic vintage mafia movie poster shown in Image 2.
+
+Dress the person in a classic black tuxedo with a white dress shirt, black bow tie, and a red rose boutonniere on the left lapel. Pose them like a powerful mafia boss, seated confidently with one hand raised near the face, with a calm, intimidating and authoritative expression.
+
+Use dramatic low-key cinematic lighting with warm amber and golden tones, deep shadows, strong contrast, subtle highlights on the face, and a dark almost-black background. Keep the soft glowing rectangular light panels behind on the left side and the leather chair edge on the right.
+
+Give the image the look of a 1970s-1980s classic crime-film poster: warm brown/golden color grading, slightly faded vintage tones, realistic photographic texture, subtle film grain, cinematic shadows and an elegant old-Hollywood atmosphere.
+
+Frame it as a medium close-up / upper-body portrait, centered and symmetrical, with the same portrait aspect ratio as Image 2.
+
+At the bottom, keep the gold "The Godfather" title, the marionette-hand/string emblem and the small credits text exactly as in Image 2: same typeface, position and colors. Do not add any other graphic elements, logos, extra text or watermarks.`,
+
+    'welad-el-eih': `Create a realistic vintage Egyptian movie poster photograph recreating the poster shown in Image 2.
+
+Show the person running toward the camera with a bare chest, wearing a white cloth wrapped around the waist and holding it with one hand, with an intense, urgent expression. Keep the same pose, body position, camera angle and framing as in Image 2.
+
+Use soft overcast daylight outdoors, natural skin tones, muted and slightly faded colors, visible film grain and the printed-paper texture of an old 1980s poster. Keep the red and white bus and the street crowd in the background exactly as in Image 2.
+
+Keep the poster's title, the actor names and credits and all Arabic text exactly as in Image 2: same position, size and colors. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
+
+    'el-ayam': `Create a vintage Egyptian movie poster recreating the poster shown in Image 2.
+
+The person is the head-and-shoulders portrait inside the large yellow circle: wearing a white collared shirt and round dark sunglasses like the original, looking toward the camera with a calm, confident expression. Keep the same head angle, size and position as in Image 2.
+
+Use soft flat studio lighting with warm yellow-olive tones, slightly faded colors, light film grain and the printed-paper texture of an old poster. Keep the yellow circle, the olive-green background with the faint pharaonic relief figures, and the decorative ornaments exactly as in Image 2.
+
+Keep the title "الأيام / THE DAYS" in dark ornate calligraphy, the actor names, the credits and all Arabic text exactly as in Image 2: same position, size and colors. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
+
+    'el-harreef': `Create a vintage Egyptian screen-print movie poster recreating the poster shown in Image 2.
+
+Replace only the small full-body footballer in the middle: the person wears a dark blue sweater and grey trousers and is dribbling a football mid-step, with the same pose, body position and size as the original figure. Render the person with the same high-contrast graphic print treatment as the poster, using limited blue, black and white tones, while the face stays clearly recognizable.
+
+Keep everything else exactly as in Image 2: the large black-and-white illustrated face in the background, the blue background, the row of street lamps, the white shapes, the title "الحريف / STREETPLAYER", the actor names, the credits and all Arabic and English text. Keep the aged folded-paper creases and print texture. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
+  };
+
+  const defaultPrompt = `Recreate the vintage movie poster shown in Image 2, replacing ${hero} with the person from Image 1. Keep the same pose, clothing, composition, lighting, color grading, film grain and print texture as the original poster, but relight the person so they belong naturally in the scene. Keep the poster's title, credits and all text exactly as in Image 2. Do not add any other graphic elements, logos or watermarks.`;
+
+  const finalPrompt = `${identityRules}
+
+${moviePrompts[movieId] || defaultPrompt}
+
+Output the final poster as an image.`;
+
   const parts = [];
 
+  parts.push({ text: 'Image 1 (reference photo of the person):' });
+  parts.push({
+    inline_data: {
+      mime_type: mimeType,
+      data: cleanBase64,
+    },
+  });
+
   if (posterBase64) {
-    parts.push({ text: 'Image 1 (the poster to edit):' });
+    parts.push({ text: 'Image 2 (the original movie poster):' });
     parts.push({
       inline_data: {
         mime_type: posterMime,
@@ -91,24 +146,7 @@ export default async function handler(req, res) {
     });
   }
 
-  parts.push({ text: 'Image 2 (the person to insert):' });
-  parts.push({
-    inline_data: {
-      mime_type: mimeType,
-      data: cleanBase64,
-    },
-  });
-
-  parts.push({
-    text: `Image 1 is a vintage movie poster. Image 2 is a photo of a real person.
-
-Create the poster again with ${hero} replaced by the person from Image 2.
-The new person's face must be clearly the face from Image 2 (same eyes, nose, mouth, jawline, skin tone, hair). The original actor's face must not appear anywhere.
-Keep the original body pose, clothes, lighting, grain and color grading, so the person looks printed as part of the poster.
-Keep the background, title, and all Arabic and English text unchanged.
-
-Output the final poster as an image.`
-  });
+  parts.push({ text: finalPrompt });
 
   // We ask Gemini to generate an image based on the reference photo and prompt
   const requestBody = JSON.stringify({

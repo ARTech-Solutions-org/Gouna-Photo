@@ -36,8 +36,8 @@ export function CameraScreen({ onBack, onCaptured }: CameraScreenProps) {
       const constraints: MediaStreamConstraints = {
         video: {
           facingMode: 'user',
-          width: { ideal: 1280, max: 1920 },
-          height: { ideal: 720, max: 1080 },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
         },
         audio: false,
       };
@@ -89,24 +89,31 @@ export function CameraScreen({ onBack, onCaptured }: CameraScreenProps) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d')!;
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
 
-    if (isMirrored) {
-      ctx.translate(canvas.width, 0);
-      ctx.scale(-1, 1);
-    }
-    ctx.drawImage(video, 0, 0);
-    if (isMirrored) {
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // قص الصورة لنسبة 3:4 زي الإطار اللي المستخدم شايفه
+    const targetRatio = 3 / 4;
+    let sw = vw, sh = vh, sx = 0, sy = 0;
+    if (vw / vh > targetRatio) {
+      sw = vh * targetRatio;
+      sx = (vw - sw) / 2;
+    } else {
+      sh = vw / targetRatio;
+      sy = (vh - sh) / 2;
     }
 
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
-    const compressed = await compressImage(dataUrl, 1024, 0.88);
+    canvas.width = sw;
+    canvas.height = sh;
+    // من غير قلب مرايا: الصورة المبعوتة للـ AI هي الوش الحقيقي
+    ctx.drawImage(video, sx, sy, sw, sh, 0, 0, sw, sh);
+
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+    const compressed = await compressImage(dataUrl, 1280, 0.9);
 
     setLocalCapturedPhoto(compressed);
     stopCamera();
-  }, [isMirrored, stopCamera]);
+  }, [stopCamera]);
 
   // Countdown then capture
   const startCountdown = useCallback(() => {
@@ -211,7 +218,7 @@ export function CameraScreen({ onBack, onCaptured }: CameraScreenProps) {
           }}>
             {capturedPhoto
               ? (isAr ? 'يمكنك الاحتفاظ بها أو إعادة التقاطها' : 'Keep it or retake')
-              : (isAr ? 'ضع وجهك في الإطار' : 'Position your face in the frame')}
+              : (isAr ? 'وجهك للكاميرا، من غير كاب، وإضاءة واضحة من قدام' : 'Face the camera, no cap, with clear light from the front')}
           </p>
         </motion.div>
 
@@ -254,7 +261,10 @@ export function CameraScreen({ onBack, onCaptured }: CameraScreenProps) {
               <img
                 src={capturedPhoto}
                 alt={isAr ? 'الصورة الملتقطة' : 'Captured photo'}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{
+                  width: '100%', height: '100%', objectFit: 'cover',
+                  transform: isMirrored ? 'scaleX(-1)' : 'none',
+                }}
                 data-testid="captured-photo"
               />
             )}

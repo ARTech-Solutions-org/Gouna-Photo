@@ -100,7 +100,8 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             fontFamily: 'var(--font-arabic)',
             fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
             fontWeight: 'bold',
-            marginRight: '20px' // offset slightly because of the arrow on the right
+            marginRight: '20px', // offset slightly because of the arrow on the right
+            marginTop: '8px' // nudge text down slightly to center it visually
           }}>
             ابدأ التجربة
           </span>

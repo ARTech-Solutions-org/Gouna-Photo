@@ -289,12 +289,9 @@ export function GeneratingScreen({ onComplete, onError }: GeneratingScreenProps)
             />
           </div>
           <div style={{
-            display: 'flex', justifyContent: 'space-between',
+            display: 'flex', justifyContent: 'flex-end',
             marginTop: '8px',
           }}>
-            <span style={{ fontSize: '0.75rem', color: 'rgba(201,162,39,0.5)' }}>
-              {isAr ? 'الذكاء الاصطناعي يعمل...' : 'AI at work...'}
-            </span>
             <span style={{ fontSize: '0.75rem', color: 'rgba(201,162,39,0.5)' }}>
               {Math.round(progress)}%
             </span>
