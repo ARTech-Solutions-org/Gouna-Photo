@@ -62,10 +62,27 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           transition={{ ...spring, delay: 0.2 }}
           style={{
             position: 'absolute',
-            left: '0%',
-            top: '16.78%',
-            width: '100%',
-            height: '37.67%',
+            left: '25%',
+            top: '15%',
+            width: '50%',
+            height: '22%',
+            objectFit: 'contain'
+          }}
+        />
+
+        {/* Sponsor/Compound Logo */}
+        <motion.img 
+          src="/elements/compound_path.png" 
+          alt="Sponsor Logo"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ ...spring, delay: 0.25 }}
+          style={{
+            position: 'absolute',
+            left: '25%',
+            top: '40%',
+            width: '50%',
+            height: '12%',
             objectFit: 'contain'
           }}
         />
