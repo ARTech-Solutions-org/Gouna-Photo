@@ -81,7 +81,7 @@ export function GeneratingScreen({ onComplete, onError }: GeneratingScreenProps)
           const imageUrl = await uploadImage(generatedDataUrl);
           setImageUrl(imageUrl);
           // QR URL goes to the mobile download page
-          const qrUrl = `${window.location.origin}/photo/${state.session.id}`;
+          const qrUrl = `${window.location.origin}/photo/${state.session.id}?url=${encodeURIComponent(imageUrl)}`;
           setQrUrl(qrUrl);
         } catch (uploadErr) {
           console.warn('Upload failed, using local image:', uploadErr);

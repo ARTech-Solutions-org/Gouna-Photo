@@ -1,25 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 
 export function DownloadPage() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const imageUrl = searchParams.get('url');
+  
   const [loading, setLoading] = useState(true);
 
-
-  // In a real app, we would fetch the image URL from a database based on the session ID.
-  // Since we don't have a DB here, we assume the user scans the QR code that might encode the URL directly,
-  // or we instruct the backend to save it in a storage bucket and fetch it here.
-  
-  // For the sake of this UI:
   useEffect(() => {
-    // Simulate fetching image
-    setTimeout(() => {
+    // If we have an image URL, we don't really need to simulate fetching, but we'll show a quick loader for UX
+    const timer = setTimeout(() => {
       setLoading(false);
-      // Currently the QR encoded URL is just /photo/:id, which isn't enough to get the image without a DB.
-      // If the URL in QR was the ImgBB url directly, they wouldn't even need this page.
-      // Assuming they hit this page, we'll show a placeholder or instruction.
-    }, 1000);
-  }, [id]);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [id, imageUrl]);
 
   return (
     <div style={{
@@ -43,9 +38,30 @@ export function DownloadPage() {
         <div style={{ maxWidth: '400px', width: '100%' }}>
           <p style={{ marginBottom: '24px', lineHeight: 1.6 }}>
             Your cinematic masterpiece is ready! 
-            <br/><br/>
-            (Note: To display the actual image here, ensure your backend saves the ImgBB URL against the Session ID `{id}` in a database, and fetch it here).
           </p>
+
+          {imageUrl ? (
+            <div style={{ marginBottom: '32px' }}>
+              <img 
+                src={imageUrl} 
+                alt="Your masterpiece" 
+                style={{
+                  width: '100%',
+                  borderRadius: '4px',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+                  border: '2px solid rgba(201,162,39,0.3)',
+                  marginBottom: '16px'
+                }} 
+              />
+              <p style={{ fontSize: '0.9rem', color: '#c9a227', marginBottom: '16px' }}>
+                Long-press the image to save it to your phone.
+              </p>
+            </div>
+          ) : (
+            <p style={{ marginBottom: '24px', lineHeight: 1.6, color: '#ff6b6b' }}>
+              Oops! We couldn't find your image. Please try generating it again from the photo booth.
+            </p>
+          )}
 
           <Link to="/" style={{
             display: 'inline-block',
