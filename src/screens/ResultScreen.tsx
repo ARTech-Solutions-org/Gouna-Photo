@@ -127,7 +127,7 @@ export function ResultScreen({ onRegenerate, onEdit, onContinue }: ResultScreenP
                   width: 'auto',
                   height: 'auto',
                   maxWidth: '100%',
-                  maxHeight: '55vh',
+                  maxHeight: '40vh',
                 }}
                 data-testid="generated-image"
               />

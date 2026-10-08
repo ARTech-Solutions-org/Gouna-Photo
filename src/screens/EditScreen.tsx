@@ -142,7 +142,7 @@ export function EditScreen({ onSave, onCancel }: EditScreenProps) {
                   width: 'auto',
                   height: 'auto',
                   maxWidth: '100%',
-                  maxHeight: '55vh',
+                  maxHeight: '38vh',
                   ...previewStyle,
                   transition: 'filter 0.4s ease',
                 }}
