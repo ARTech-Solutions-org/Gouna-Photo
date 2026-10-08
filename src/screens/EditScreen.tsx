@@ -1,6 +1,6 @@
 // El Gouna Film Festival Photo Booth — Edit Photo Screen
 
-import { useRef, useEffect, useMemo, useState } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { BoothButton } from '../components/BoothButton';
 import { motion } from 'framer-motion';
 import { useBooth } from '../context/BoothContext';
