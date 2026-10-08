@@ -79,10 +79,10 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           transition={{ ...spring, delay: 0.25 }}
           style={{
             position: 'absolute',
-            left: '25%',
-            top: '40%',
-            width: '50%',
-            height: '12%',
+            left: '35%',
+            top: '36%',
+            width: '30%',
+            height: '8%',
             objectFit: 'contain'
           }}
         />
