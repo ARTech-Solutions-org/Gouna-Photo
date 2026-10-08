@@ -79,7 +79,9 @@ export default async function handler(req, res) {
   };
   const hero = heroDescriptions[movieId] || 'the main man in the center of the poster';
 
-  const identityRules = `Use the person from Image 1 (the reference photo) as the main character. Preserve their facial identity, facial structure, skin tone, hairstyle, facial hair and glasses (if any) as accurately as possible, exactly as in the reference photo. Do not copy any cap, hat or earphones from the reference photo. The original actor's face must not appear anywhere.`;
+  const identityRules = `Use the person from Image 1 (the reference photo) as the main character. Preserve their facial identity, facial structure, skin tone, hairstyle, facial hair and glasses (if any) as accurately as possible, exactly as in the reference photo. Do not copy any cap, hat or earphones from the reference photo. The original actor's face must not appear anywhere.
+
+The face must blend into the poster: match the film grain, softness, faded color cast, contrast and skin tone of the rest of the poster, so the face is never cleaner, brighter or sharper than the body and background.`;
 
   // برومت مخصوص لكل فيلم. ضيف باقي الأفلام بنفس الطريقة
   const moviePrompts = {
