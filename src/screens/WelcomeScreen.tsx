@@ -36,19 +36,19 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
       />
 
       <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
-        {/* Main Logo (El Gouna) */}
+        {/* Title (El Gouna Logo) */}
         <motion.img 
-          src="/elements/logo.png" 
-          alt="Logo"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ ...spring, delay: 0.2 }}
+          src="/elements/title.png" 
+          alt="Title"
+          initial={{ y: -30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ...spring, delay: 0.1 }}
           style={{
             position: 'absolute',
-            left: '30%',
-            top: '6%',
-            width: '40%',
-            height: '12%',
+            left: '31.2%',
+            top: '6.04%',
+            width: '37.4%',
+            height: '10.5%',
             objectFit: 'contain'
           }}
         />
@@ -62,27 +62,27 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           transition={{ ...spring, delay: 0.25 }}
           style={{
             position: 'absolute',
-            left: '35%',
-            top: '18.5%',
-            width: '30%',
+            left: '37.5%',
+            top: '17%',
+            width: '25%',
             height: '5%',
             objectFit: 'contain'
           }}
         />
 
-        {/* Title (بطل البوستر) */}
+        {/* Main Logo (بطل البوستر) */}
         <motion.img 
-          src="/elements/title.png" 
-          alt="Title"
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ...spring, delay: 0.1 }}
+          src="/elements/logo.png" 
+          alt="Logo"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ ...spring, delay: 0.2 }}
           style={{
             position: 'absolute',
-            left: '15%',
+            left: '0%',
             top: '25%',
-            width: '70%',
-            height: '30%',
+            width: '100%',
+            height: '37.67%',
             objectFit: 'contain'
           }}
         />
