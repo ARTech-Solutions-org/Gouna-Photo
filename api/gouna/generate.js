@@ -65,6 +65,8 @@ export default async function handler(req, res) {
     }
   }
 
+  console.log('Poster loaded:', !!posterBase64, posterFilename);
+
   const heroDescriptions = {
     'emara-w-kebeba': 'the main man looking forward',
     'bab-el-hadid': 'the man in the center',
@@ -97,13 +99,11 @@ Frame it as a medium close-up / upper-body portrait, centered and symmetrical, w
 
 At the bottom, keep the gold "The Godfather" title, the marionette-hand/string emblem and the small credits text exactly as in Image 2: same typeface, position and colors. Do not add any other graphic elements, logos, extra text or watermarks.`,
 
-    'welad-el-eih': `Create a realistic vintage Egyptian movie poster photograph recreating the poster shown in Image 2.
+    'welad-el-eih': `Edit Image 2, the original vintage Egyptian movie poster, by replacing ONLY the head and face of the running man with the head and face of the person from Image 1.
 
-Show the person running toward the camera with a bare chest, wearing a white cloth wrapped around the waist and holding it with one hand, with an intense, urgent expression. Keep the same pose, body position, camera angle and framing as in Image 2.
+Keep Image 2 exactly as it is: the same poster layout, the same body, pose, white cloth, red bus, street, crowd, the title "ولاد الايه", all Arabic text, credits, colors, print texture and aspect ratio. Do not redraw or redesign the poster and do not change any text.
 
-Use soft overcast daylight outdoors, natural skin tones, muted and slightly faded colors, visible film grain and the printed-paper texture of an old 1980s poster. Keep the red and white bus and the street crowd in the background exactly as in Image 2.
-
-Keep the poster's title, the actor names and credits and all Arabic text exactly as in Image 2: same position, size and colors. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
+Re-render the new head so it matches the poster's lighting: soft overcast daylight, faded colors, film grain and the same sharpness as the body. The head size, angle and neck must match the original man's head and blend seamlessly into the shoulders.`,
 
     'el-ayam': `Create a vintage Egyptian movie poster recreating the poster shown in Image 2.
 
