@@ -1,6 +1,6 @@
 // El Gouna Film Festival Photo Booth — Poster Selection Screen
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { BoothButton } from '../components/BoothButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooth } from '../context/BoothContext';
@@ -104,6 +104,7 @@ function PosterCard({ movie, selected, onSelect, index }: PosterCardProps) {
       <div className="poster-card-overlay">
         <div className="poster-card-title">{isAr ? movie.titleAr : movie.titleEn}</div>
         {isAr && <div className="poster-card-title-en">{movie.titleEn}</div>}
+        {!isAr && <div className="poster-card-title-en" dir="rtl">{movie.titleAr}</div>}
       </div>
 
       {/* Selected checkmark */}
@@ -133,11 +134,31 @@ export function PosterSelectionScreen({ onBack, onConfirm }: PosterSelectionProp
   const [pendingMovie, setPendingMovie] = useState<Movie | null>(selectedMovie);
 
   const filteredMovies = useMemo(
-    () => getMoviesByCategory(activeCategory),
-    [activeCategory]
+    () => getMoviesByCategory(activeCategory, language),
+    [activeCategory, language]
   );
 
-  const categories: MovieCategory[] = ['all', 'drama', 'comedy', 'action', 'romance'];
+  // Available categories based on the current language
+  const availableCategories = useMemo(() => {
+    const langMovies = getMoviesByCategory('all', language);
+    const existingCats = new Set(langMovies.map((m) => m.category));
+    const allCats: MovieCategory[] = ['all', 'drama', 'comedy', 'action', 'romance'];
+    return allCats.filter((cat) => cat === 'all' || existingCats.has(cat));
+  }, [language]);
+
+  // Reset category if not available in current language
+  useEffect(() => {
+    if (!availableCategories.includes(activeCategory)) {
+      setActiveCategory('all');
+    }
+  }, [availableCategories, activeCategory]);
+
+  // Reset pending movie if it belongs to a different language
+  useEffect(() => {
+    if (pendingMovie && (pendingMovie.language || 'ar') !== language) {
+      setPendingMovie(null);
+    }
+  }, [language, pendingMovie]);
 
   const handleSelect = (movie: Movie) => {
     setPendingMovie(movie);
@@ -245,7 +266,7 @@ export function PosterSelectionScreen({ onBack, onConfirm }: PosterSelectionProp
           }}>
             {isAr
               ? 'اختر من مجموعتنا من الأفلام المصرية الكلاسيكية'
-              : 'Select from our collection of classic Egyptian films'}
+              : 'Select from our collection of classic Hollywood films'}
           </p>
           <div className="gold-divider" style={{ marginTop: 14, marginLeft: isAr ? 'auto' : 0, marginRight: isAr ? 0 : 'auto' }} />
         </motion.div>
@@ -258,7 +279,7 @@ export function PosterSelectionScreen({ onBack, onConfirm }: PosterSelectionProp
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          {categories.map((cat) => {
+          {availableCategories.map((cat) => {
             const labels = {
               all: isAr ? 'الكل' : 'All',
               drama: isAr ? 'دراما' : 'Drama',
@@ -286,17 +307,30 @@ export function PosterSelectionScreen({ onBack, onConfirm }: PosterSelectionProp
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '16px',
           }}>
-            <AnimatePresence mode="popLayout">
-              {filteredMovies.map((movie, i) => (
-                <PosterCard
-                  key={movie.id}
-                  movie={movie}
-                  selected={pendingMovie?.id === movie.id}
-                  onSelect={handleSelect}
-                  index={i}
-                />
-              ))}
-            </AnimatePresence>
+            {filteredMovies.length === 0 ? (
+              <div style={{
+                gridColumn: '1 / -1',
+                textAlign: 'center',
+                padding: '60px 20px',
+                color: 'var(--c-cream-dim)',
+                fontFamily: isAr ? 'var(--font-arabic)' : 'var(--font-body)',
+                fontSize: '1rem',
+              }}>
+                {isAr ? 'لا توجد ملصقات متاحة في هذا التصنيف حالياً' : 'No posters available in this category'}
+              </div>
+            ) : (
+              <AnimatePresence mode="popLayout">
+                {filteredMovies.map((movie, i) => (
+                  <PosterCard
+                    key={movie.id}
+                    movie={movie}
+                    selected={pendingMovie?.id === movie.id}
+                    onSelect={handleSelect}
+                    index={i}
+                  />
+                ))}
+              </AnimatePresence>
+            )}
           </div>
         </div>
 

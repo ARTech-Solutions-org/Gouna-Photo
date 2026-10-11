@@ -150,25 +150,25 @@ export function PosterConfirmScreen({ onBack, onContinue }: PosterConfirmProps) 
               zIndex: -1,
             }}>
               <div style={{
-                fontFamily: 'var(--font-arabic)',
+                fontFamily: isAr ? 'var(--font-arabic)' : 'var(--font-display)',
                 fontSize: '2rem',
                 color: 'var(--c-gold)',
                 textAlign: 'center',
-                direction: 'rtl',
+                direction: isAr ? 'rtl' : 'ltr',
                 textShadow: '0 2px 20px rgba(201,162,39,0.4)',
                 lineHeight: 1.5,
               }}>
-                {selectedMovie.titleAr}
+                {isAr ? selectedMovie.titleAr : selectedMovie.titleEn}
               </div>
               <div className="gold-divider" style={{ marginTop: 16 }} />
               <div style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: isAr ? 'var(--font-display)' : 'var(--font-arabic)',
                 fontSize: '1rem',
-                fontStyle: 'italic',
+                fontStyle: isAr ? 'italic' : 'normal',
                 color: 'rgba(201,162,39,0.6)',
                 marginTop: 16,
               }}>
-                {selectedMovie.titleEn}
+                {isAr ? selectedMovie.titleEn : selectedMovie.titleAr}
               </div>
             </div>
           </div>

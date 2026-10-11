@@ -57,7 +57,14 @@ function boothReducer(state: BoothState, action: BoothAction): BoothState {
     case 'SET_LANGUAGE':
       return {
         ...state,
-        session: { ...state.session, language: action.language },
+        session: {
+          ...state.session,
+          language: action.language,
+          selectedMovie:
+            (state.session.selectedMovie?.language || 'ar') === action.language
+              ? state.session.selectedMovie
+              : null,
+        },
       };
     case 'SELECT_MOVIE':
       return {

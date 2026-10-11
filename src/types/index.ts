@@ -21,6 +21,7 @@ export interface Movie {
   titleEn: string;
   posterPath: string;
   category: string;
+  language?: Language;
   aiPrompt: string;
   hidden?: boolean;
   generationConfig?: {

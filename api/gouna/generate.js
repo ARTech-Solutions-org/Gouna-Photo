@@ -48,6 +48,7 @@ export default async function handler(req, res) {
     'welad-el-eih': 'welad-el-eih.png',
     'el-ayam': 'el-ayam.png',
     'the-godfather': 'the-godfather.png',
+    'the-green-mile': 'the-green-mile.jpg',
   };
 
   const posterFilename = posterFiles[movieId];
@@ -78,6 +79,7 @@ export default async function handler(req, res) {
     'welad-el-eih': 'the main man in the center of the poster running shirtless',
     'el-ayam': 'the man in the center wearing round dark glasses',
     'the-godfather': 'the man in the center wearing a tuxedo with a red rose',
+    'the-green-mile': 'the man in the dark police-guard uniform and cap',
   };
   const hero = heroDescriptions[movieId] || 'the main man in the center of the poster';
 
@@ -120,6 +122,16 @@ Render the new person in exactly the same graphic style as the original illustra
 The person must still be recognizable through the shapes of their face: the profile, jawline, hairstyle, facial hair and glasses (if any) from Image 1, simplified into the black-and-white print style.
 
 Keep everything else in Image 2 exactly as it is: the small footballer in the dark blue sweater and grey trousers with the football, the blue background, the row of street lamps, the white shapes, the title "الحريف / STREETPLAYER", all Arabic and English text, the credits, the folded-paper creases and print texture. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
+
+    'the-green-mile': `Create a cinematic vintage 1990s Hollywood drama movie poster recreating the poster shown in Image 2.
+
+Dress the person in the same dark 1930s prison-guard uniform as in Image 2: dark jacket, white collared shirt, dark tie, and the dark peaked uniform cap with the metal badge. Keep the same pose, head tilt, body angle and framing as in Image 2: a head-and-shoulders portrait, the head turned slightly to the side, looking off into the distance with a serious, thoughtful and gentle expression.
+
+Use the same dramatic warm lighting as Image 2: a strong golden-amber light falling from the left side of the face, with soft deep shadows on the right side, under the cap brim and on the neck. Keep the same painted, slightly airbrushed illustration-like finish, warm sepia and brown color grading, soft film grain, and the dark moody smoky brown background with its soft vignette.
+
+Keep the glowing light at the bottom center with the two small silhouetted figures walking toward it, exactly as in Image 2.
+
+Keep all the text exactly as in Image 2: the spaced-out title at the top, the small tagline text on the right, the large "THE GREEN MILE" title with the "From the Director of..." line under it, and the full credit block and logos at the bottom: same typeface, position, size and colors. Keep the same portrait aspect ratio as Image 2. Do not add any other graphic elements, logos, extra text or watermarks.`,
   };
 
   const defaultPrompt = `Recreate the vintage movie poster shown in Image 2, replacing ${hero} with the person from Image 1. Keep the same pose, clothing, composition, lighting, color grading, film grain and print texture as the original poster, but relight the person so they belong naturally in the scene. Keep the poster's title, credits and all text exactly as in Image 2. Do not add any other graphic elements, logos or watermarks.`;

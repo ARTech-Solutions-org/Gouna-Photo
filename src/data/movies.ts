@@ -1,7 +1,7 @@
 // El Gouna Film Festival Photo Booth — Movie Data
 // Each movie has an AI prompt describing how to place the user in the poster
 
-import type { Movie } from '../types';
+import type { Movie, Language } from '../types';
 
 export const movies: Movie[] = [
   {
@@ -120,6 +120,7 @@ Style requirements:
     titleEn: 'The Streetplayer',
     posterPath: '/posters/el-harreef.png',
     category: 'drama',
+    language: 'ar',
     aiPrompt: 'The poster is El Harreef (The Streetplayer, 1983). The person to replace is the man in the blue shirt standing in the center/lower-middle holding a ball with his foot.',
     generationConfig: { style: 'drama', aspectRatio: '2:3' },
   },
@@ -129,6 +130,7 @@ Style requirements:
     titleEn: 'Welad El-Eih',
     posterPath: '/posters/welad-el-eih.png',
     category: 'action',
+    language: 'ar',
     aiPrompt: 'The poster is Welad El-Eih. The person to replace is the man in the center (Ahmed Zaki) running shirtless with a towel around his waist. Match his skin tone, lighting, and pose exactly.',
     generationConfig: { style: 'action', aspectRatio: '2:3' },
   },
@@ -138,6 +140,7 @@ Style requirements:
     titleEn: 'The Days',
     posterPath: '/posters/el-ayam.png',
     category: 'drama',
+    language: 'ar',
     aiPrompt: 'The poster is Al-Ayam (The Days). The person to replace is the man in the center (Ahmed Zaki) wearing round dark glasses. Keep the glasses and match the yellow/green vintage lighting of the poster.',
     generationConfig: { style: 'drama', aspectRatio: '2:3' },
   },
@@ -147,7 +150,18 @@ Style requirements:
     titleEn: 'The Godfather',
     posterPath: '/posters/the-godfather.png',
     category: 'drama',
+    language: 'en',
     aiPrompt: 'The poster is The Godfather. The person to replace is the man in the center (Marlon Brando) in a tuxedo with a red rose.',
+    generationConfig: { style: 'drama', aspectRatio: '2:3' },
+  },
+  {
+    id: 'the-green-mile',
+    titleAr: 'الميل الأخضر',
+    titleEn: 'The Green Mile',
+    posterPath: '/posters/the-green-mile.jpg',
+    category: 'drama',
+    language: 'en',
+    aiPrompt: 'The poster is The Green Mile. The person to replace is the man in the dark police-guard uniform and cap.',
     generationConfig: { style: 'drama', aspectRatio: '2:3' },
   },
 ];
@@ -155,8 +169,11 @@ Style requirements:
 export const movieCategories = ['all', 'drama', 'comedy', 'action', 'romance'] as const;
 export type MovieCategory = typeof movieCategories[number];
 
-export function getMoviesByCategory(category: MovieCategory): Movie[] {
-  const visibleMovies = movies.filter(m => !m.hidden);
+export function getMoviesByCategory(category: MovieCategory, language?: Language): Movie[] {
+  let visibleMovies = movies.filter(m => !m.hidden);
+  if (language) {
+    visibleMovies = visibleMovies.filter(m => (m.language || 'ar') === language);
+  }
   if (category === 'all') return visibleMovies;
   return visibleMovies.filter(m => m.category === category);
 }

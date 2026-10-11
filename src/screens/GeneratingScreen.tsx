@@ -240,11 +240,11 @@ export function GeneratingScreen({ onComplete, onError }: GeneratingScreenProps)
               <div style={{
                 position: 'absolute', inset: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'var(--font-arabic)', fontSize: '0.6rem',
+                fontFamily: isAr ? 'var(--font-arabic)' : 'var(--font-display)', fontSize: '0.6rem',
                 color: 'var(--c-gold)', textAlign: 'center', padding: '4px',
-                direction: 'rtl',
+                direction: isAr ? 'rtl' : 'ltr',
               }}>
-                {selectedMovie.titleAr}
+                {isAr ? selectedMovie.titleAr : selectedMovie.titleEn}
               </div>
             </motion.div>
           )}
