@@ -174,9 +174,9 @@ html, body, #root {
   background: linear-gradient(135deg, rgba(201,162,39,0.15) 0%, rgba(201,162,39,0.05) 100%);
   color: var(--c-gold);
   font-family: var(--font-body);
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;

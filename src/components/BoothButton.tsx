@@ -7,8 +7,19 @@ interface BoothButtonProps extends HTMLMotionProps<"button"> {
   variant?: 'primary' | 'secondary'; // We can ignore variant and just use the same bg for now
 }
 
+function hasEnglishText(node: React.ReactNode): boolean {
+  if (typeof node === 'string') return /[a-zA-Z]/.test(node);
+  if (typeof node === 'number') return false;
+  if (Array.isArray(node)) return node.some(hasEnglishText);
+  if (React.isValidElement(node) && node.props && (node.props as { children?: React.ReactNode }).children) {
+    return hasEnglishText((node.props as { children?: React.ReactNode }).children);
+  }
+  return false;
+}
+
 export function BoothButton({ children, style, className = '', ...props }: BoothButtonProps) {
   const isGhostOrTab = className.includes('btn-ghost') || className.includes('category-tab') || className.includes('lang-btn');
+  const isEnglish = hasEnglishText(children);
 
   return (
     <motion.button
@@ -23,9 +34,11 @@ export function BoothButton({ children, style, className = '', ...props }: Booth
           backgroundColor: 'transparent',
           border: 'none',
           color: '#1a1208',
-          fontFamily: 'var(--font-arabic)',
-          fontSize: '1.5rem',
-          fontWeight: 'bold',
+          fontFamily: isEnglish ? 'var(--font-body)' : 'var(--font-arabic)',
+          fontSize: isEnglish ? '0.95rem' : '1.5rem',
+          fontWeight: isEnglish ? 700 : 'bold',
+          letterSpacing: isEnglish ? '0.04em' : 'normal',
+          textTransform: isEnglish ? 'uppercase' : 'none',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
