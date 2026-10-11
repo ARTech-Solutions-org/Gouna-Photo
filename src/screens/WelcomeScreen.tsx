@@ -1,14 +1,24 @@
 
-import { motion } from 'framer-motion';
-
+import { motion, AnimatePresence } from 'framer-motion';
+import { useBooth } from '../context/BoothContext';
 
 const spring = { type: 'spring' as const, damping: 28, stiffness: 120 };
+
+// In this design asset pack:
+// lang_en.png is the illuminated gold frame for the ON (active/selected) option
+// lang_ar.png is the dark frame for the OFF (inactive/unselected) option
+const LANG_ON_BG = '/elements/lang_en.png';
+const LANG_OFF_BG = '/elements/lang_ar.png';
 
 interface WelcomeScreenProps {
   onStart: () => void;
 }
 
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
+  const { state, setLanguage } = useBooth();
+  const { language } = state.session;
+  const isAr = language === 'ar';
+
   return (
     <div
       className="booth-screen"
@@ -53,8 +63,6 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           }}
         />
 
-
-
         {/* Sponsor Logo (Emirates NBD) */}
         <motion.div 
           title="Sponsor Logo"
@@ -79,22 +87,26 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           }}
         />
 
-        {/* Main Logo (بطل البوستر) */}
-        <motion.img 
-          src="/elements/logo.png" 
-          alt="Logo"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ ...spring, delay: 0.2 }}
-          style={{
-            position: 'absolute',
-            left: '0%',
-            top: '25%',
-            width: '100%',
-            height: '37.67%',
-            objectFit: 'contain'
-          }}
-        />
+        {/* Main Logo (بطل البوستر / The star of the poster) */}
+        <AnimatePresence mode="wait">
+          <motion.img 
+            key={isAr ? 'logo-ar' : 'logo-en'}
+            src={isAr ? '/elements/logo.png' : '/elements/The star of the poster.png'} 
+            alt={isAr ? 'بطل البوستر' : 'The star of the poster'}
+            initial={{ opacity: 0, scale: 0.93, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -10 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            style={{
+              position: 'absolute',
+              left: isAr ? '0%' : '8%',
+              top: isAr ? '25%' : '24.6%',
+              width: isAr ? '100%' : '84%',
+              height: isAr ? '37.67%' : '30%',
+              objectFit: 'contain'
+            }}
+          />
+        </AnimatePresence>
 
         {/* Start Button */}
         <motion.button
@@ -124,17 +136,19 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           <span style={{
             color: '#1a1208',
             fontFamily: 'var(--font-arabic)',
-            fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
+            fontSize: isAr ? 'clamp(1.5rem, 4vw, 2.8rem)' : 'clamp(1.45rem, 3.8vw, 2.6rem)',
             fontWeight: 'bold',
-            marginRight: '20px', // offset slightly because of the arrow on the right
+            letterSpacing: isAr ? 'normal' : '0.02em',
+            marginRight: '22px', // offset slightly because of the arrow on the right
             marginTop: '8px' // nudge text down slightly to center it visually
           }}>
-            ابدأ التجربة
+            {isAr ? 'ابدأ التجربة' : 'Start Experience'}
           </span>
         </motion.button>
 
-        {/* English Language Button (Off State in design) */}
+        {/* English Language Button */}
         <motion.button
+          onClick={() => setLanguage('en')}
           whileHover={{ scale: 1.05, filter: 'brightness(1.15)' }}
           whileTap={{ scale: 0.95 }}
           initial={{ y: 20, opacity: 0 }}
@@ -146,7 +160,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             top: '68.16%',
             width: '22.12%',
             height: '4.63%',
-            background: 'url(/elements/lang_en.png) no-repeat center center',
+            background: `url(${!isAr ? LANG_ON_BG : LANG_OFF_BG}) no-repeat center center`,
             backgroundSize: '100% 100%',
             backgroundColor: 'transparent',
             border: 'none',
@@ -154,21 +168,27 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             padding: 0,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            transition: 'background 0.25s ease'
           }}
+          aria-pressed={!isAr}
+          aria-label="Switch to English"
         >
           <span style={{
-            color: '#c9a227', // Gold color for inactive/off state
+            color: !isAr ? '#ffffff' : '#c9a227',
             fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(0.8rem, 2vw, 1.2rem)',
-            fontWeight: '600'
+            fontSize: 'clamp(0.85rem, 2vw, 1.25rem)',
+            fontWeight: !isAr ? 'bold' : '600',
+            textShadow: !isAr ? '0 0 10px rgba(255, 255, 255, 0.4)' : 'none',
+            transition: 'color 0.25s ease, text-shadow 0.25s ease'
           }}>
             English
           </span>
         </motion.button>
 
-        {/* Arabic Language Button (On State in design) */}
+        {/* Arabic Language Button */}
         <motion.button
+          onClick={() => setLanguage('ar')}
           whileHover={{ scale: 1.05, filter: 'brightness(1.15)' }}
           whileTap={{ scale: 0.95 }}
           initial={{ y: 20, opacity: 0 }}
@@ -180,7 +200,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             top: '68.16%',
             width: '22.17%',
             height: '4.79%',
-            background: 'url(/elements/lang_ar.png) no-repeat center center',
+            background: `url(${isAr ? LANG_ON_BG : LANG_OFF_BG}) no-repeat center center`,
             backgroundSize: '100% 100%',
             backgroundColor: 'transparent',
             border: 'none',
@@ -188,14 +208,19 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             padding: 0,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            transition: 'background 0.25s ease'
           }}
+          aria-pressed={isAr}
+          aria-label="التبديل إلى العربية"
         >
           <span style={{
-            color: '#ffffff', // White color for active/on state
+            color: isAr ? '#ffffff' : '#c9a227',
             fontFamily: 'var(--font-arabic)',
             fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
-            fontWeight: 'bold'
+            fontWeight: isAr ? 'bold' : '600',
+            textShadow: isAr ? '0 0 10px rgba(255, 255, 255, 0.4)' : 'none',
+            transition: 'color 0.25s ease, text-shadow 0.25s ease'
           }}>
             عربي
           </span>
